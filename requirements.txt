@@ -3,3 +3,4 @@ datetime
 oauthlib
 requests_oauthlib
 streamlit
+streamlit_image_comparison
