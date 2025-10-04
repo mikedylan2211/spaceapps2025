@@ -121,7 +121,7 @@ with left:
         st.image(f"https://via.placeholder.com/900x520?text=Frame+{frame}", use_container_width=True)
 
 with right:
-    st.subheader("⚙️ Controls")
+    st.subheader("Controls")
     thresh = st.slider("Change threshold", 0.30, 0.95, 0.60, 0.01)
     smooth = st.slider("Post-filter (px)", 0, 7, 2, 1)
     st.toggle("Show risk overlay", value=False)
@@ -134,7 +134,7 @@ with right:
     # ==========================================================
     # --- Contact Form (instead of logs) ---
     # ==========================================================
-    st.subheader("📬 Contact / Report Form")
+    st.subheader("Contact Form")
 
     with st.form("contact_form", clear_on_submit=True):
         name = st.text_input("Your Name")
@@ -157,7 +157,7 @@ with right:
                 st.success("✅ Thank you for your report! We’ll review it shortly.")
                 st.toast("📨 Report sent successfully", icon="✉️")
 
-    # ==========================================================
+# ==========================================================
 # --- Footer (bottom of the page) ---
 # ==========================================================
 st.markdown("""
