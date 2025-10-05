@@ -5,3 +5,4 @@ requests_oauthlib
 streamlit
 streamlit_image_comparison
 streamlit_option_menu
+shapely
