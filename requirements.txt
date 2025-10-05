@@ -8,3 +8,4 @@ streamlit_option_menu
 shapely
 sentinelhub
 rasterio
+matplotlib
