@@ -12,10 +12,6 @@ An interactive web app to show and predict dangerous locations in the mountains,
 3. [Features](#features)  
 4. [Architecture & Technology Stack](#architecture--technology-stack)  
 5. [Installation & Setup](#installation--setup)  
-6. [Usage](#usage)  
-7. [How It Works / Pipeline](#how-it-works--pipeline)  
-8. [Team & Acknowledgements](#team--acknowledgements)  
-9. [License](#license)  
 
 ---
 
@@ -76,18 +72,20 @@ Below is a general guide.
 ### Steps
 
 1. *Clone the repository*  
-   bash
+  <pre> ```bash
    git clone https://github.com/borystereschenko/Hackthon.git
    cd Hackthon
-
-2. **Make Installer executable and (optional) give everyone on the system privilege to execute**
-  bash
-  chmod +x installer.sh
-  chmod 755 installer.sh
-
+  </pre>
+   
+2. *Make Installer executable and (optional) give everyone on the system privilege to execute*
+  <pre>```bash
+  chmod +x installer.sh && chmod 755 installer.sh
+  </pre>
+     
 3. *Get API keys*
    Get your own api key at sentinel-hub.com
 
 4. *Run the installer*
-   ```bash
+   <pre>```bash
    ./installer.sh
+   </pre>
