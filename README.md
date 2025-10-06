@@ -72,13 +72,13 @@ Below is a general guide.
 ### Steps
 
 1. *Clone the repository*  
-  <pre> ```bash
+  <pre>
    git clone https://github.com/borystereschenko/Hackthon.git
    cd Hackthon
   </pre>
    
 2. *Make Installer executable and (optional) give everyone on the system privilege to execute*
-  <pre>```bash
+  <pre>
   chmod +x installer.sh && chmod 755 installer.sh
   </pre>
      
@@ -86,6 +86,6 @@ Below is a general guide.
    Get your own api key at sentinel-hub.com
 
 4. *Run the installer*
-   <pre>```bash
+  <pre>
    ./installer.sh
-   </pre>
+  </pre>
