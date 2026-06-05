@@ -1,91 +1,83 @@
-# Save Blatten & Beyond  
-*Rapid Response to Natural and Man-Made Disasters*  
+# Save Blatten & Beyond
 
-An interactive web app to show and predict dangerous locations in the mountains, developed by physics students at UZH for the NASA Hackathon 2025 in Zurich.
+Rapid response prototype for visualizing mountain hazard signals in Switzerland.
 
----
-
-## Table of Contents
-
-1. [About](#about)  
-2. [Motivation & Goals](#motivation--goals)  
-3. [Features](#features)  
-4. [Architecture & Technology Stack](#architecture--technology-stack)  
-5. [Installation & Setup](#installation--setup)  
-
----
-
-## About
-
-“Save Blatten & Beyond” is a web app that helps visualize and predict hazardous areas in mountainous terrain (e.g. avalanche risk zones, landslides) via an interactive map.  
-The app combines Sentinel-1 and Sentinel-2 radar and imagery data to highlight high-risk zones and inform rescue planning or precautionary measures.
-
-We created this as our project for the *NASA Hackathon 2025* in Zurich. We are physics students at the *University of Zurich (UZH)*, bringing together skills in data analysis, geospatial modeling, and web development.
-
----
-
-## Motivation & Goals
-
-- Mountainous terrain poses significant risks (avalanches, rockfalls, landslides).  
-- Early identification of dangerous areas helps in disaster prevention, planning, and rescue operations.  
-- We aim to build a tool for *rapid response*: enabling rescue teams, local authorities, or hikers to visualize risk in real time.  
-- The app should be intuitive, interactive, and extensible for future enhancements (e.g. adding more sensors, real-time updates).
-
----
+This Streamlit app was developed for the NASA Space Apps Challenge 2025 in Zurich
+by physics students at the University of Zurich. It combines a demo village risk
+map with Sentinel-2 image lookup for the Blatten/Birchgletscher area.
 
 ## Features
 
-- Interactive map interface with zoom / pan  
-- Overlay of predicted risk zones (color-coded)  
-- Ability to click / hover to see risk level, contributing data  
-- Data ingestion / preprocessing from satellite / remote sensing  
-- Backend logic to compute predictions  
-- (Optional / future) Alerts, time series, forecasts  
+- Interactive Swiss village map with fixed demonstration risk levels
+- Color-coded village markers and risk summaries
+- Sentinel-2 image lookup by date with local image caching
+- Side-by-side Sentinel image comparison
+- Short date-range animation with replay support
+- Local contact/report capture with optional attachments
+- Placeholder page for future AI prediction work
 
----
+## Project Structure
 
-## Architecture & Technology Stack
+| Path | Purpose |
+| --- | --- |
+| `app.py` | Streamlit interface and app workflow |
+| `sentinel_img.py` | Sentinel Hub process API image downloader |
+| `TOKEN.py` | Sentinel Hub OAuth token helper |
+| `pyproject.toml` | uv/Python project metadata |
+| `requirements.txt` | pip-compatible dependency list |
+| `.streamlit/secrets.toml.example` | Sentinel credential template |
 
-Here’s a rough breakdown of the components and technologies used:
+Generated runtime data is intentionally ignored by git:
 
-| Component              | Technology / Library         |
-|------------------------|-------------------------------|
-| Backend / API          | Python (Streamlit, ...) |
-| Predictive model logic | Python, Torch (in development) |
-| Satellite / remote data | Sentinel-2, Sentinel-1 |
-| Frontend / UI          | Streamlit (Python)
-| Deployment / scripts   | installer.sh, environment setup, etc. |
-| Dependencies           | listed in requirements.txt |
+- `cache/` stores downloaded Sentinel images
+- `reports/` stores submitted local reports
+- `.streamlit/secrets.toml` stores local credentials
 
----
+## Setup
 
-## Installation & Setup
+Prerequisites:
 
-Below is a general guide. 
+- Python 3.10+
+- uv
+- Sentinel Hub client credentials for image lookup
 
-### Prerequisites
+Install dependencies:
 
-- Python 3.8+  
-- (Optionally) virtual environment tool (venv, conda)  
-- Git  
+```bash
+uv sync
+```
 
-### Steps
+Configure Sentinel Hub credentials with either environment variables:
 
-1. *Clone the repository*  
-  <pre>
-   git clone https://github.com/borystereschenko/Hackthon.git
-   cd Hackthon
-  </pre>
-   
-2. *Make Installer executable and (optional) give everyone on the system privilege to execute*
-  <pre>
-  chmod +x installer.sh && chmod 755 installer.sh
-  </pre>
-     
-3. *Get API keys*
-   Get your own api key at sentinel-hub.com
+```bash
+export SENTINEL_CLIENT_ID="your-client-id"
+export SENTINEL_CLIENT_SECRET="your-client-secret"
+```
 
-4. *Run the installer*
-  <pre>
-   ./installer.sh
-  </pre>
+Or copy the example Streamlit secrets file:
+
+```bash
+cp .streamlit/secrets.toml.example .streamlit/secrets.toml
+```
+
+Then edit `.streamlit/secrets.toml` with your real credentials.
+
+## Run
+
+```bash
+uv run streamlit run app.py
+```
+
+The installer script does the same setup/run sequence:
+
+```bash
+./installer.sh
+```
+
+## Notes
+
+The risk values in the main map are fixed demonstration data. They are not live
+predictions and should not be used for operational safety decisions.
+
+The contact form stores reports locally in `reports/`; it does not send email or
+upload reports to an external service.

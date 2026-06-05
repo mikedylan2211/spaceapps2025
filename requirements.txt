@@ -1,11 +1,7 @@
-requests
-datetime
 oauthlib
-requests_oauthlib
+pandas
+pillow
+requests
+requests-oauthlib
 streamlit
-streamlit_image_comparison
-streamlit_option_menu
-shapely
-sentinelhub
-rasterio
-matplotlib
+streamlit-option-menu

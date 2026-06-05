@@ -1,25 +1,73 @@
+import os
+from functools import lru_cache
+
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
-def make_token():
-    # Your client credentials
-    client_id = 'eec7d04e-621b-4bf8-8a92-10fb0dea8083'
-    client_secret = '1fqBm3kP5hQhT57i2Sq4FRMJyxD0qU8G'
 
-    # Create a session
+TOKEN_URL = (
+    "https://services.sentinel-hub.com/auth/realms/main/protocol/"
+    "openid-connect/token"
+)
+
+
+def _streamlit_secret(*keys):
+    try:
+        import streamlit as st
+
+        value = st.secrets
+        for key in keys:
+            value = value[key]
+        return value
+    except Exception:
+        return None
+
+
+def _config_value(env_name, *secret_paths):
+    env_value = os.getenv(env_name)
+    if env_value:
+        return env_value
+
+    for path in secret_paths:
+        value = _streamlit_secret(*path)
+        if value:
+            return value
+
+    return None
+
+
+def get_sentinel_credentials():
+    client_id = _config_value(
+        "SENTINEL_CLIENT_ID",
+        ("sentinel_hub", "client_id"),
+        ("SENTINEL_CLIENT_ID",),
+    )
+    client_secret = _config_value(
+        "SENTINEL_CLIENT_SECRET",
+        ("sentinel_hub", "client_secret"),
+        ("SENTINEL_CLIENT_SECRET",),
+    )
+    return client_id, client_secret
+
+
+@lru_cache(maxsize=1)
+def _fetch_token(client_id, client_secret):
     client = BackendApplicationClient(client_id=client_id)
     oauth = OAuth2Session(client=client)
+    token = oauth.fetch_token(
+        token_url=TOKEN_URL,
+        client_secret=client_secret,
+        include_client_id=True,
+    )
+    return token["access_token"]
 
-    # Get token for the session
-    token = oauth.fetch_token(token_url='https://services.sentinel-hub.com/auth/realms/main/protocol/openid-connect/token',
-                              client_secret=client_secret, include_client_id=True)
 
-    # All requests using this session will have an access token automatically added
-    resp = oauth.get("https://services.sentinel-hub.com/configuration/v1/wms/instances")
-    print(resp.content)
+def make_token():
+    client_id, client_secret = get_sentinel_credentials()
+    if not client_id or not client_secret:
+        raise RuntimeError(
+            "Missing Sentinel Hub credentials. Set SENTINEL_CLIENT_ID and "
+            "SENTINEL_CLIENT_SECRET, or add them to .streamlit/secrets.toml."
+        )
 
-    # eec7d04e-621b-4bf8-8a92-10fb0dea8083
-    # 1fqBm3kP5hQhT57i2Sq4FRMJyxD0qU8G
-    return token['access_token']
-
-#print(make_token())
+    return _fetch_token(client_id, client_secret)
