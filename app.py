@@ -578,8 +578,9 @@ st.markdown(
     """
 ---
 <div style='text-align:center;color:gray;font-size:.9rem;margin-top:2em;'>
-  Developed by <b>Yuliia Melnychuk</b>, <b>Mike Poppelaars</b>, <b>Borys Tereschenko</b><br>
-  &copy; 2025 Fachverein Physik der UZH - All rights reserved
+  Developed by <b>Yuliia Melnychuk</b>, <b>Mike Dylan Poppelaars</b>, <b>Borys Tereschenko</b><br>
+  Substantially improved by <b>Mike Dylan Poppelaars</b><br>
+  &copy; 2026 Fachverein Physik der UZH - All rights reserved
 </div>
 """,
     unsafe_allow_html=True,
